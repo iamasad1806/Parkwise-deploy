@@ -1,0 +1,17 @@
+{
+  "rules": {
+    ".read": "auth != null",  // Allow read access only to authenticated users
+    ".write": "auth != null", // Allow write access only to authenticated users
+    "slots": {
+      ".read": "auth != null", // Authenticated users can read slots
+      ".write": "auth != null" // Authenticated users can write to slots
+    },
+    "tickets": {
+      "$ticketId": {
+        ".read": "data.child('userId').val() === auth.uid", // Only the ticket's owner can read it
+        ".write": "data.child('userId').val() === auth.uid" // Only the ticket's owner can write to it
+      },
+      ".indexOn": "userId" // Add index on the 'userId' field
+    }
+  }
+}
